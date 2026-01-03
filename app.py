@@ -1316,7 +1316,6 @@ def _agg_add(agg: Dict[str, set], student: str, issues: List[str]) -> None:
             agg[k] = set()
         agg[k].add(st_name)
 
-
 def _render_top10_issues(agg: Dict[str, set], title: str = "10 từ bị sai phổ biến nhất trong lớp", top_n: int = 10) -> None:
     if not agg:
         st.info("Chưa có dữ liệu để tổng hợp (hãy chấm ít nhất 1 loạt bài).")
@@ -1736,8 +1735,17 @@ with tab_vocab:
         st.markdown("#### Preview")
         for line in summary_lines:
             st.markdown(line)
-st.divider()
-_render_top10_issues(st.session_state["top_issues_agg"], title="10 lỗi phổ biến", top_n=10)
+        st.divider()
+        st.subheader("🔤 Top 10 lỗi phổ biến trong buổi học này — Vocab/Phrase (Table A)")
+
+        if st.session_state["top_issues_vocab"]:
+            _render_top10_issues(
+                st.session_state["top_issues_vocab"],
+                title="",  # Không cần title nữa vì đã có subheader
+                top_n=10
+            )
+        else:
+            st.info("Chưa có dữ liệu lỗi từ Tab Vocab trong session này.")
 
 # =============================================================================
 # TAB 2 — PASSAGE LEVEL 1
@@ -2120,5 +2128,14 @@ with tab_passage:
         st.markdown("#### Preview")
         for line in summary_lines:
             st.markdown(line.replace("\n", "  \n"))
-st.divider()
-_render_top10_issues(st.session_state["top_issues_agg"], title="10 lỗi phổ biến", top_n=10)
+        st.divider()
+        st.subheader("📖 Top 10 lỗi phổ biến trong buổi học này — Reading Passage")
+
+        if st.session_state["top_issues_passage"]:
+            _render_top10_issues(
+                st.session_state["top_issues_passage"],
+                title="",  # Không cần title vì đã có subheader
+                top_n=10
+            )
+        else:
+            st.info("Chưa có dữ liệu lỗi từ Tab Passage trong session này.")
