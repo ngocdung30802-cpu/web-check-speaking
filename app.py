@@ -1254,8 +1254,13 @@ if chosen_class and chosen_session and os.path.isdir(SESSION_DIR):
     _dl_button_if_exists("⬇️ logs.json", os.path.join(SESSION_DIR, "logs.json"), "application/json")
 else:
     st.sidebar.caption("Chọn lớp + buổi học để hiện file đã lưu.")
-if "top_issues_agg" not in st.session_state:
-    st.session_state["top_issues_agg"] = {}
+
+# === MỚI: Tách riêng aggregator cho từng tab ===
+if "top_issues_vocab" not in st.session_state:
+    st.session_state["top_issues_vocab"] = {}       # Dành riêng cho Tab 1 (Vocab/Phrase)
+
+if "top_issues_passage" not in st.session_state:
+    st.session_state["top_issues_passage"] = {}     # Dành riêng cho Tab 2 (Reading Passage)
 
 # =========================
 # CLASS-WIDE TOP 10 ISSUES (Tab1 + Tab2)
